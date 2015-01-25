@@ -1,12 +1,11 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <util/delay.h>
 
 #define F_CPU   16000000
 #define BUAD    9600
 #define BRC     ((F_CPU/16/BUAD) - 1)
 #define TX_BUFFER_SIZE  128
-
-#include <util/delay.h>
 
 char serialBuffer[TX_BUFFER_SIZE];
 uint8_t serialReadPos = 0;
@@ -48,11 +47,9 @@ int main(void)
 	 DDRD = 0b11111111;// устанавливаем весь порт д в режим output
 	 DDRB = 0b11110111;// устанавливаем весь порт б в режим output, кроме 11 пина. для echo нам нужен режим input.
 	 unsigned int time_us=0;
-
 	 unsigned int distance_sm=0;
 	UBRR0H = (BRC >> 8);
 	UBRR0L =  BRC;
-	
 	UCSR0B = (1 << TXEN0)  | (1 << TXCIE0);
 	UCSR0C = (1 << UCSZ01) | (1 << UCSZ00);
 	
